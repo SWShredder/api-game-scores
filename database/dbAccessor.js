@@ -57,7 +57,7 @@ exports.getHighScore = async (id) => {
 exports.updateHighScores = async (id, name, points) => {
   const resQuery = await query(`
       UPDATE highScores
-      SET name = ?, points = ?
+      SET name = ?, points = ?, updated_at = CURRENT_TIMESTAMP
       WHERE id = ?
   `, [name, points, id])
   if (!resQuery.affectedRows) throw Error
