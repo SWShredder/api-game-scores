@@ -19,3 +19,47 @@ exports.storeHighScore = async ({name, points}) => {
     return resQuery
 }
 
+/**
+ * Permet d'obtenir la liste des High Scores à partir de la BD
+ * @returns {Promise<*>} La liste des high scores
+ */
+exports.getHighScores = async () => {
+    const resQuery = await query(`
+        SELECT *
+        FROM highScores
+        ORDER BY points DESC
+    `)
+    delete resQuery.meta
+    return resQuery;
+}
+
+/**
+ * Permet de modifier un high score
+ * @param {number} id Une valeur entière représentant l'identifiant d'un high score
+ * @param {string} name Le nom du joueur
+ * @param {number} points Une valeur entière représentant le pointage
+ * @returns {Promise<{affectedRows}|*>} Le résultat de la requête
+ */
+exports.updateHighScores = async ({id, name, points}) => {
+    const resQuery = await query(`
+        UPDATE highScores
+        SET name = ?, points = ?
+        WHERE id = ?
+    `, [name, points, id])
+    if (!resQuery.affectedRows) throw Error
+    return resQuery
+}
+
+/**
+ * Permet de supprimer un high score
+ * @param {number} id Une valeur entière représentant l'identifiant d'un high score
+ * @returns {Promise<{affectedRows}|*>} Le résultat de la requête
+ */
+exports.deleteHighScore = async (id) => {
+    const resQuery = await query(`
+        DELETE FROM highScores
+        WHERE id = ?
+    `, [id])
+    if (!resQuery.affectedRows) throw Error
+    return resQuery
+}
