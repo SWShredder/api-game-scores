@@ -1,0 +1,19 @@
+{
+  "name": "api-game-scores",
+  "version": "1.0.0",
+  "description": "API de high scores de jeu de société",
+  "main": "server.js",
+  "author": "Yanik Sweeney, Marjorie Dudemaine et Émile Boucher",
+  "scripts": {
+    "start": "nodemon -L server.js"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "helmet": "^4.6.0",
+    "mariadb": "^2.5.4"
+  },
+  "devDependencies": {
+    "nodemon": "2.0.12"
+  }
+}

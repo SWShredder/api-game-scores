@@ -1,0 +1,5 @@
+.idea
+/data/mariadb/
+
+# Project exclude paths
+/node_modules/
