@@ -44,8 +44,7 @@ exports.getHighScore = async (id) => {
     FROM highScores
     WHERE id = ?
   `, [id])
-  delete resQuery.meta
-  return resQuery
+  return resQuery[0]
 }
 
 /**
@@ -55,7 +54,7 @@ exports.getHighScore = async (id) => {
  * @param {number} points Une valeur entière représentant le pointage
  * @returns {Promise<{affectedRows}|*>} Le résultat de la requête
  */
-exports.updateHighScores = async ({id, name, points}) => {
+exports.updateHighScores = async (id, name, points) => {
   const resQuery = await query(`
       UPDATE highScores
       SET name = ?, points = ?
