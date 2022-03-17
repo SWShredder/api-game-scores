@@ -10,13 +10,13 @@ const query = require('./mariadb')
  * @param {number} points Une valeur entière représentant le pointage
  * @returns {Promise<{affectedRows}|*>} Le résultat de la requête
  */
-exports.storeHighScore = async ({name, points}) => {
-    const resQuery = await query(`
-        INSERT INTO highScores (name, points)
-        value (?, ?)
-    `, [name, points])
-    if (!resQuery.affectedRows) throw Error
-    return resQuery
+exports.storeHighScore = async (name, points) => {
+  const resQuery = await query(`
+      INSERT INTO highScores (name, points)
+          value (?, ?)
+  `, [name, points])
+  if (!resQuery.affectedRows) throw Error
+  return resQuery
 }
 
 /**
@@ -24,13 +24,28 @@ exports.storeHighScore = async ({name, points}) => {
  * @returns {Promise<*>} La liste des high scores
  */
 exports.getHighScores = async () => {
-    const resQuery = await query(`
-        SELECT *
-        FROM highScores
-        ORDER BY points DESC
-    `)
-    delete resQuery.meta
-    return resQuery;
+  const resQuery = await query(`
+      SELECT *
+      FROM highScores
+      ORDER BY points DESC
+  `)
+  delete resQuery.meta
+  return resQuery;
+}
+
+/**
+ * Permet d'obtenir un high score dans la liste
+ * @param {number} id Une valeur entière représentant l'identifiant d'un high score
+ * @returns {Promise<any>} Le high score correspondant au id
+ */
+exports.getHighScore = async (id) => {
+  const resQuery = await query(`
+    SELECT *
+    FROM highScores
+    WHERE id = ?
+  `, [id])
+  delete resQuery.meta
+  return resQuery
 }
 
 /**
@@ -41,13 +56,13 @@ exports.getHighScores = async () => {
  * @returns {Promise<{affectedRows}|*>} Le résultat de la requête
  */
 exports.updateHighScores = async ({id, name, points}) => {
-    const resQuery = await query(`
-        UPDATE highScores
-        SET name = ?, points = ?
-        WHERE id = ?
-    `, [name, points, id])
-    if (!resQuery.affectedRows) throw Error
-    return resQuery
+  const resQuery = await query(`
+      UPDATE highScores
+      SET name = ?, points = ?
+      WHERE id = ?
+  `, [name, points, id])
+  if (!resQuery.affectedRows) throw Error
+  return resQuery
 }
 
 /**
@@ -56,10 +71,10 @@ exports.updateHighScores = async ({id, name, points}) => {
  * @returns {Promise<{affectedRows}|*>} Le résultat de la requête
  */
 exports.deleteHighScore = async (id) => {
-    const resQuery = await query(`
-        DELETE FROM highScores
-        WHERE id = ?
-    `, [id])
-    if (!resQuery.affectedRows) throw Error
-    return resQuery
+  const resQuery = await query(`
+      DELETE FROM highScores
+      WHERE id = ?
+  `, [id])
+  if (!resQuery.affectedRows) throw Error
+  return resQuery
 }
