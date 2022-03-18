@@ -21,7 +21,7 @@ app.use(function(req, res) {
 })
 
 app.listen(port, () => {
-  console.log(`Api high scores at http://localhost:${port}`)
+  console.log(`Api high scores listening at http://localhost:${port}`)
 })
 
 

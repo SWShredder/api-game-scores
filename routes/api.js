@@ -7,11 +7,11 @@ const router = express.Router()
 
 const highScoreController = require('../controllers/highScoreController')
 
-router.route('/high-score')
+router.route('/high-scores')
     .get(highScoreController.get)
     .post(highScoreController.store)
 
-router.route('/high-score/:id')
+router.route('/high-scores/:id')
     .delete(highScoreController.delete)
     .put(highScoreController.update)
 
