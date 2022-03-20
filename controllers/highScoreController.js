@@ -4,8 +4,8 @@
  */
 const dbAccessor = require('../database/dbAccessor')
 
-const STORE_PARAM_ERROR = 'The parameters `name` and `points` are required'
-const POINTS_FORMAT_ERROR = 'The parameter `points` must be an integer'
+const PARAMS_ERROR = 'The parameters `name`, `points` and `player_count` are required'
+const PARAMS_FORMAT_ERROR = 'The parameter `points` and `player_count` must be integers'
 const ID_FORMAT_ERROR = 'The URL parameter `id` must be an integer > 0'
 const ID_PARAM_ERROR = 'The URL parameter `id` is required'
 const SCORE_NOT_FOUND = 'There is no high score with this `id`'
@@ -35,19 +35,22 @@ exports.store = async (req, res) => {
   try {
     const name = req.body?.name
     const points = req.body?.points
+    const playerCount = req.body?.player_count
     const pointsNumber = Number(points)
+    const playerCountNumber = Number(playerCount)
 
     // Vérification pour les erreurs de requête
-    if (!name || !points) {
-      return res.status(400).json({message: STORE_PARAM_ERROR})
-    } else if (isNaN(pointsNumber)) {
-      return res.status(400).json({message: POINTS_FORMAT_ERROR})
+    if (!name || !points || !playerCount) {
+      return res.status(400).json({message: PARAMS_ERROR})
+    } else if (isNaN(pointsNumber) || isNaN(playerCountNumber)) {
+      return res.status(400).json({message: PARAMS_FORMAT_ERROR})
     }
-    const result = await dbAccessor.storeHighScore(name, pointsNumber)
+    const result = await dbAccessor.storeHighScore(name, pointsNumber, playerCountNumber)
     return res.status(201).json({
       id: result.insertId,
       name: name,
       points: pointsNumber,
+      player_count: playerCountNumber,
     })
 
   } catch (e) {
@@ -66,18 +69,20 @@ exports.update = async (req, res) => {
     const id = req.params?.id
     const name = req.body?.name
     const points = req.body?.points
+    const playerCount = req.body?.player_count
     const pointsNumber = Number(points)
     const idNumber = Number(id)
+    const playerCountNumber = Number(playerCount)
 
     // Vérifications pour les erreurs de requête
     if (!id) {
       return res.status(400).json({message: ID_PARAM_ERROR})
     } else if (isNaN(idNumber) || idNumber <= 0) {
       return res.status(400).json({message: ID_FORMAT_ERROR})
-    } else if (!name || !points) {
-      return res.status(400).json({message: STORE_PARAM_ERROR})
-    } else if (isNaN(pointsNumber)) {
-      return res.status(400).json({message: POINTS_FORMAT_ERROR})
+    } else if (!name || !points || !playerCount) {
+      return res.status(400).json({message: PARAMS_ERROR})
+    } else if (isNaN(pointsNumber) || isNaN(playerCountNumber)) {
+      return res.status(400).json({message: PARAMS_FORMAT_ERROR})
     }
 
     // Vérification pour la présence du high score à modifier
@@ -86,11 +91,12 @@ exports.update = async (req, res) => {
       return res.status(404).json({message: SCORE_NOT_FOUND})
     }
 
-    await dbAccessor.updateHighScores(id, name, points)
+    await dbAccessor.updateHighScores(id, name, pointsNumber, playerCountNumber)
     return res.status(200).json({
       id: idNumber,
       name: name,
-      points: pointsNumber
+      points: pointsNumber,
+      player_count: playerCountNumber,
     })
   } catch (e) {
     return res.status(500).json({message: e.message})
@@ -125,7 +131,8 @@ exports.delete = async (req, res) => {
     return res.status(200).json({
       id: idNumber,
       name: existingScore.name,
-      points: existingScore.points
+      points: existingScore.points,
+      player_count: existingScore.player_count,
     })
 
   } catch (e) {

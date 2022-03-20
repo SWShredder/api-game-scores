@@ -8,13 +8,14 @@ const query = require('./mariadb')
  * Ajoute un high score dans la BD
  * @param {string} name Une string représentant le nom du joueur
  * @param {number} points Une valeur entière représentant le pointage
+ * @param {number} playerCount Une valeur entière représentant le nombre de joueurs
  * @returns {Promise<{affectedRows}|*>} Le résultat de la requête
  */
-exports.storeHighScore = async (name, points) => {
+exports.storeHighScore = async (name, points, playerCount) => {
   const resQuery = await query(`
-      INSERT INTO highScores (name, points)
-          value (?, ?)
-  `, [name, points])
+      INSERT INTO highScores (name, points, player_count)
+          value (?, ?, ?)
+  `, [name, points, playerCount])
   if (!resQuery.affectedRows) throw Error
   return resQuery
 }
@@ -52,14 +53,15 @@ exports.getHighScore = async (id) => {
  * @param {number} id Une valeur entière représentant l'identifiant d'un high score
  * @param {string} name Le nom du joueur
  * @param {number} points Une valeur entière représentant le pointage
+ * @param {number} playerCount Une valeur entière représentant le nombre de joueurs
  * @returns {Promise<{affectedRows}|*>} Le résultat de la requête
  */
-exports.updateHighScores = async (id, name, points) => {
+exports.updateHighScores = async (id, name, points, playerCount) => {
   const resQuery = await query(`
       UPDATE highScores
-      SET name = ?, points = ?, updated_at = CURRENT_TIMESTAMP
+      SET name = ?, points = ?, player_count = ?, updated_at = CURRENT_TIMESTAMP
       WHERE id = ?
-  `, [name, points, id])
+  `, [name, points, playerCount, id])
   if (!resQuery.affectedRows) throw Error
   return resQuery
 }
