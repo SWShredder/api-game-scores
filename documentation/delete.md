@@ -23,7 +23,8 @@
         `{
           "id": 5,
           "name": "Naruto Uzumaki",
-          "points": 7555
+          "points": 7555,
+          "player_count": 3,
           }`
 
     * **Réponse d'erreur:**

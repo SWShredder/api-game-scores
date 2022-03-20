@@ -5,7 +5,7 @@
 const dbAccessor = require('../database/dbAccessor')
 
 const PARAMS_ERROR = 'The parameters `name`, `points` and `player_count` are required'
-const PARAMS_FORMAT_ERROR = 'The parameter `points` and `player_count` must be integers'
+const PARAMS_FORMAT_ERROR = 'The parameters `points` and `player_count` must be integers'
 const ID_FORMAT_ERROR = 'The URL parameter `id` must be an integer > 0'
 const ID_PARAM_ERROR = 'The URL parameter `id` is required'
 const SCORE_NOT_FOUND = 'There is no high score with this `id`'

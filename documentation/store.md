@@ -22,25 +22,28 @@
 
   `points=[number]`
 
+  `player_count=[number]`
+
 * **Réponse de succès**
     * **Code:** 200 <br/>
       * **Contenu:**
         `{
           "id": 5,
           "name": "Goku",
-          "points": 9999
+          "points": 9999,
+          "player_count": 4
           }`
 
     * **Réponse d'erreur:**
         * **Code:** 400 <br />
-          * Les champs `name` et `points` ne sont pas tous les deux présents
+          * Les champs `name`,`points` ou `player_count` ne sont pas tous présents
             `{
-            "message": "The parameters `name` and `points` are required"
+            "message": "The parameters `name`, `points` and `player_count` are required"
             }`
 
-          * Le champ `points` est présent mais a un format invalide
+          * Les champs `points` et `player_count` sont présents mais ne sont pas tous valides
             `{
-            "message": "The parameter `points` must be an integer"
+            "message": "The parameters `points` and `player_count` must be integers"
             }`
 
         * **Code:** 500 <br />
@@ -50,6 +53,6 @@
 
 * **Exemple:**
   ```
-  axios.post('/api/high-scores', { name: "Goku", points: 9999 })
+  axios.post('/api/high-scores', { name: "Goku", points: 9999, player_count: 4 })
     .then(reponse => console.log(reponse))
     .catch(erreurr => console.log(erreur)

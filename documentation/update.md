@@ -22,13 +22,16 @@
 
   `points=[number]`
 
+  `player_count=[number]`
+
 * **Réponse de succès**
     * **Code:** 200 <br/>
       * **Contenu:**
         `{
           "id": 5,
           "name": "Naruto Uzumaki",
-          "points": 7555
+          "points": 7555,
+          "player_count": 3
           }`
 
     * **Réponse d'erreur:**
@@ -49,14 +52,14 @@
             "message": "The URL parameter `id` must be an integer > 0"
             }`
 
-          * Les champs `name` et `points` ne sont pas tous les deux présents
+          * Les champs `name`,`points` ou `player_count` ne sont pas tous présents
             `{
-            "message": "The parameters `name` and `points` are required"
+            "message": "The parameters `name`, `points` and `player_count` are required"
             }`
 
-          * Le champ `points` est présent mais a un format invalide
+          * Les champs `points` et `player_count` sont présents mais ne sont pas tous valides
             `{
-            "message": "The parameter `points` must be an integer"
+            "message": "The parameters `points` and `player_count` must be integers"
             }`
 
         * **Code:** 500 <br />
@@ -66,6 +69,6 @@
 
 * **Exemple:**
   ```
-  axios.put('/api/high-scores/5', { name: "Naruto Uzumaki", points: 7555 })
+  axios.put('/api/high-scores/5', { name: "Naruto Uzumaki", points: 7555, player_count: 3 })
     .then(reponse => console.log(reponse))
     .catch(erreurr => console.log(erreur)
